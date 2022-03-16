@@ -1,39 +1,26 @@
-export async function getLineChartData(db, limit = 24) {
-  console.log('hhhhh');
-  return db
+export async function getLineChartData(db, limit = 60) {
+  const call = await db
     .collection('transaction')
     .aggregate([
       {
         $match: {
-          'receipt.logs_0.function_address.value':
-            '0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D',
-          timestamp: { $gte: new Date('2021-11-20T12:05:45') },
+          tags: '0x7f268357a8c2552623316e2562d90e642bb538e5:atomicMatch_:1',
         },
       },
       {
         $group: {
           _id: {
-            dayOfYear: {
-              $dayOfYear: '$timestamp',
-            },
-            hour: {
-              $hour: '$timestamp',
-            },
+            dayOfYear: { $dayOfYear: '$process_date' },
+            minute: { $minute: '$process_date' },
           },
-          total: {
-            $avg: '$value.value_shift18',
-          },
+          total: { $sum: '$value.shifted' },
         },
       },
-      {
-        $sort: {
-          dayOfYear: -1,
-          hour: -1,
-        },
-      },
-      {
-        $limit: limit,
-      },
+      { $sort: { dayOfYear: -1, minute: -1 } },
+      { $limit: 60 },
     ])
     .toArray();
+
+  console.log({ call });
+  return call;
 }
