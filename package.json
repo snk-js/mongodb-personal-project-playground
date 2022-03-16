@@ -20,8 +20,17 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@nivo/core": "^0.79.0",
+    "@nivo/line": "^0.79.1",
+    "@types/mongodb": "^4.0.7",
+    "axios": "^0.26.1",
     "clsx": "^1.1.1",
+    "connect-mongo": "^4.6.0",
+    "mongodb": "^4.4.1",
+    "nc": "^1.0.3",
     "next": "^12.1.0",
+    "next-connect": "^0.12.2",
+    "nivo": "^0.31.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-icons": "^4.3.1",
