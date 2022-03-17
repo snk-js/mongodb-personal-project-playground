@@ -17,10 +17,8 @@ export async function getLineChartData(db, limit = 60) {
         },
       },
       { $sort: { dayOfYear: -1, minute: -1 } },
-      { $limit: 60 },
+      { $limit: limit },
     ])
     .toArray();
-
-  console.log({ call });
   return call;
 }

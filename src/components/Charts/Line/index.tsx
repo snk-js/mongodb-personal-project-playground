@@ -1,7 +1,7 @@
 import { ResponsiveLine } from '@nivo/line';
 import { useEffect, useState } from 'react';
 
-const Line = ({ data /* see data tab */ }) => {
+const Line = ({ data }) => {
   const [chart, setChart] = useState([
     {
       _id: { dayOfYear: 75, minute: 12 },
@@ -27,7 +27,6 @@ const Line = ({ data /* see data tab */ }) => {
 
   useEffect(() => {
     if (data && data.lineChartData) {
-      console.log({ data });
       setChart(data.lineChartData);
     }
   }, [data]);

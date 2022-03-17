@@ -11,8 +11,6 @@ handler.use(database);
 handler.get(async (req, res) => {
   const lineChartData = await getLineChartData(req.db);
 
-  console.log('lineChartData', lineChartData);
-
   if (!lineChartData) {
     return res.status(404).json({ error: { message: 'not found' } });
   }
