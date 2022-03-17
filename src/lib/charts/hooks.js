@@ -1,5 +1,6 @@
-import { fetcher } from '@/lib/fetch';
 import useSWRInfinite from 'swr/infinite';
+
+import { fetcher } from '@/lib/fetch';
 
 export function useLineChart({ limit = 10 } = {}) {
   const { data, error, size, ...props } = useSWRInfinite(

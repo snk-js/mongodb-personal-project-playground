@@ -27,6 +27,7 @@
     "clsx": "^1.1.1",
     "connect-mongo": "^4.6.0",
     "mongodb": "^4.4.1",
+    "mongoose": "^6.2.7",
     "nc": "^1.0.3",
     "next": "^12.1.0",
     "next-connect": "^0.12.2",
