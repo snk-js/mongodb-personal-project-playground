@@ -1,12 +1,22 @@
 export type IAgreggateParams = {
   contract_address?: string;
   //Filter by a specific function name. Requires a contract address
-  function?: string;
+  func?: string;
   success: number;
   field: string;
   operation: string;
   group_by: string;
   num: number;
+};
+
+export type ITransactionParams = {
+  contract_address?: string;
+  func?: string;
+  success?: number;
+  starting_before?: number;
+  num?: number;
+  collapse?: boolean;
+  contains_address?: string;
 };
 
 // export type Pipeline = {
@@ -19,30 +29,30 @@ export type IAgreggateParams = {
 // }
 
 export enum Stages {
-  $geoNear,
-  $addFields,
-  $bucket,
-  $graphLookup,
-  $documents,
-  $limit,
-  $densify,
-  $bucketAuto,
-  $lookup,
-  $merge,
-  $match,
-  $project,
-  $count,
-  $unionWith,
-  $out,
-  $sample,
-  $redact,
-  $facet,
-  $skip,
-  $replaceRoot,
-  $group,
-  $sort,
-  $replaceWith,
-  $sortByCount,
+  '$geoNear',
+  '$addFields',
+  '$bucket',
+  '$graphLookup',
+  '$documents',
+  '$limit',
+  '$densify',
+  '$bucketAuto',
+  '$lookup',
+  '$merge',
+  '$match',
+  '$project',
+  '$count',
+  '$unionWith',
+  '$out',
+  '$sample',
+  '$redact',
+  '$facet',
+  '$skip',
+  '$replaceRoot',
+  '$group',
+  '$sort',
+  '$replaceWith',
+  '$sortByCount',
 }
 
 // WHERE - $match
@@ -58,27 +68,27 @@ export enum Stages {
 // MERGE INTO TABLE - $merge (Available starting in MongoDB 4.2)
 // UNION ALL - $unionWith (Available starting in MongoDB 4.4)
 
-$accumulator;
+// $accumulator;
 
-$addToSet;
+// $addToSet;
 
-$avg;
-$count;
+// $avg;
+// $count;
 
-$first;
+// $first;
 
-$last;
+// $last;
 
-$max;
+// $max;
 
-$mergeObjects;
+// $mergeObjects;
 
-$min;
+// $min;
 
-$push;
+// $push;
 
-$stdDevPop;
+// $stdDevPop;
 
-$stdDevSamp;
+// $stdDevSamp;
 
-$sum;
+// $sum;

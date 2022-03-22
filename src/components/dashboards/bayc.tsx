@@ -19,6 +19,7 @@ const Dashboard = () => {
   return (
     <EuiPage paddingSize='none'>
       <EuiPageBody>
+        {/* !add super date picker filter https://elastic.github.io/eui/#/forms/super-date-picker */}
         <EuiPanel>
           <div>Filter Bar: Rarity / TIME RANGE</div>
         </EuiPanel>
@@ -80,22 +81,21 @@ const Dashboard = () => {
                 <BubbleChart />
                 <EuiSpacer size='l' />
                 <EuiPanel>
-                  <div>Average Price</div>
+                  <div>bubble chart for the sales</div>
                   <div>
                     <img src='/download.svg' />
                   </div>
                 </EuiPanel>
                 <EuiSpacer size='l' />
                 <EuiPanel>
-                  <div>Volume by Exchange</div>
+                  <div>line chart averege sale price</div>
                   <div>
                     <img src='/download.svg' />
                   </div>
                 </EuiPanel>
                 <EuiSpacer size='l' />
                 <EuiPanel>
-                  <div>Rarity Matrix</div>
-                  <div>Time Slider</div>
+                  <div>line for sum</div>
                 </EuiPanel>
               </EuiFlexItem>
               <EuiFlexItem grow={4}>
