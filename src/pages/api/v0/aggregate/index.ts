@@ -1,6 +1,7 @@
 import { Db } from 'mongodb';
 import { NextApiRequest, NextApiResponse } from 'next';
 import nc from 'next-connect';
+import { parse } from 'query-string';
 
 import { Aggregation } from '@/api-lib/db/';
 import { dashboard_aggregation_pipelines } from '@/api-lib/db/aggregation/pipelines';
@@ -48,6 +49,15 @@ handler
     return res.json({ aggregateResult });
   })
   .get(async (req: RequestWithMiddleware, res: NextApiResponse) => {
+    const params = req.url;
+    let query;
+
+    if (params?.split('?')[1]) {
+      query = parse(params.split('?')[1]);
+    }
+
+    console.log(query['contract_address']); //hello
+
     // const {
     //   contract_address,
     //   limit,
@@ -61,10 +71,6 @@ handler
     // }: any = req.query;
 
     // const { query } = QueryString.parseUrl(req.url);
-
-    console.log({
-      req,
-    });
 
     // const aggregateResult = await Aggregation({
     //   db: req.db,

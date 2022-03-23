@@ -23,7 +23,8 @@ const Comp = () => {
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const getAggregate = await axios.get(
-    'http://localhost:3000' + '/api/v0/aggregate'
+    'http://localhost:3000' +
+      '/api/v0/aggregate?contract_address=hello&limit=60'
   );
 
   return {
