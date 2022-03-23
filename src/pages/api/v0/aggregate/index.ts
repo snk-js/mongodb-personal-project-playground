@@ -14,37 +14,66 @@ const handler = nc<NextApiRequest, NextApiResponse>(ncOpts);
 handler.use(database);
 
 interface AggregationArgs extends IAgreggateParams {
-  limit: number;
-  pipeline: any;
-  date: string;
+  limit?: number;
+  pipeline?: any;
+  date?: string;
 }
 
 interface RequestWithMiddleware extends NextApiRequest {
   db: Db;
 }
 
-handler.post(async (req: RequestWithMiddleware, res: NextApiResponse) => {
-  const {
-    // contract_address,
-    // limit,
-    // func,
-    // success,
-    // field,
-    // operation,
-    // group_by,
-    // num,
-    date,
-    pipeline,
-  }: AggregationArgs = req.body;
+handler
+  .post(async (req: RequestWithMiddleware, res: NextApiResponse) => {
+    const {
+      // contract_address,
+      // limit,
+      // func,
+      // success,
+      // field,
+      // operation,
+      // group_by,
+      // num,
+      date,
+      pipeline,
+    }: AggregationArgs = req.body;
 
-  const aggregateResult = await Aggregation({
-    db: req.db,
-    // @ts-ignore
-    pipeline: date ? dashboard_aggregation_pipelines[pipeline] : pipeline,
-    date: date ?? undefined,
+    const aggregateResult = await Aggregation({
+      db: req.db,
+      // @ts-ignore
+      pipeline: date ? dashboard_aggregation_pipelines[pipeline] : pipeline,
+      date: date ?? undefined,
+    });
+
+    return res.json({ aggregateResult });
+  })
+  .get(async (req: RequestWithMiddleware, res: NextApiResponse) => {
+    // const {
+    //   contract_address,
+    //   limit,
+    //   func,
+    //   success,
+    //   field,
+    //   operation,
+    //   group_by,
+    //   num,
+    //   date,
+    // }: any = req.query;
+
+    // const { query } = QueryString.parseUrl(req.url);
+
+    console.log({
+      req,
+    });
+
+    // const aggregateResult = await Aggregation({
+    //   db: req.db,
+    //   // @ts-ignore
+    //   pipeline: date ? dashboard_aggregation_pipelines[pipeline] : pipeline,
+    //   date: date ?? undefined,
+    // });
+
+    return res.json({ ok: 'ok' });
   });
-
-  return res.json({ aggregateResult });
-});
 
 export default handler;
