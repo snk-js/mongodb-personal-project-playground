@@ -37,8 +37,6 @@ handler.post(async (req: RequestWithMiddleware, res: NextApiResponse) => {
     date,
   }: AggregationArgs = req.body;
 
-  console.log(dashboard_queries[query]);
-
   const transactionQuery = await Transaction({
     db: req.db,
     config: dashboard_queries[query],

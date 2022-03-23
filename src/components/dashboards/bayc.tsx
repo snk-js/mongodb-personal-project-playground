@@ -15,7 +15,32 @@ const BubbleChart = dynamic(() => import('@/components/Charts/BubbleChart'), {
   ssr: false,
 });
 
-const Dashboard = () => {
+type DashboardProps = {
+  avgPrice: number | string;
+  highPrice: number | string;
+  lowPrice: number | string;
+  lineAverage: Array<Record<string, unknown>>;
+  lineVolume: Array<Record<string, unknown>>;
+  bubbleAllSales: Array<Record<string, unknown>>;
+};
+
+const Dashboard = ({
+  highPrice,
+  avgPrice,
+  lowPrice,
+  lineAverage,
+  lineVolume,
+  bubbleAllSales,
+}: DashboardProps) => {
+  console.log({ bubbleAllSales });
+
+  const formatData = (bubbleAllSales: Array<Record<any, any>>) => {
+    return bubbleAllSales.map((item) => ({
+      x: new Date(item.timestamp).getHours(),
+      y: item.value?.shifted,
+    }));
+  };
+
   return (
     <EuiPage paddingSize='none'>
       <EuiPageBody>
@@ -23,7 +48,7 @@ const Dashboard = () => {
         <EuiPanel>
           <div>Filter Bar: Rarity / TIME RANGE</div>
         </EuiPanel>
-
+        {/* <EuiSuperDatePicker onTimeChange={() => {}} />; */}
         <EuiPageContent
           borderRadius='none'
           hasShadow={false}
@@ -36,7 +61,7 @@ const Dashboard = () => {
                   <EuiFlexItem>
                     <EuiPanel>
                       <EuiStat
-                        title='100'
+                        title={highPrice}
                         description='High'
                         titleColor='primary'
                       />
@@ -47,7 +72,7 @@ const Dashboard = () => {
                   <EuiFlexItem>
                     <EuiPanel>
                       <EuiStat
-                        title='100'
+                        title={lowPrice}
                         description='Low'
                         titleColor='primary'
                       />
@@ -58,8 +83,8 @@ const Dashboard = () => {
                   <EuiFlexItem>
                     <EuiPanel>
                       <EuiStat
-                        title='100'
-                        description='Items'
+                        title={avgPrice}
+                        description='Average'
                         titleColor='primary'
                       />
                     </EuiPanel>
@@ -78,13 +103,17 @@ const Dashboard = () => {
                   </EuiFlexItem>
                 </EuiFlexGroup>
 
-                <BubbleChart />
                 <EuiSpacer size='l' />
-                <EuiPanel>
+                <EuiPanel
+                  style={{
+                    height: '400px',
+                    width: '100%',
+                  }}
+                >
                   <div>bubble chart for the sales</div>
-                  <div>
-                    <img src='/download.svg' />
-                  </div>
+                  <BubbleChart
+                    data={[{ id: 'sales', data: formatData(bubbleAllSales) }]}
+                  />
                 </EuiPanel>
                 <EuiSpacer size='l' />
                 <EuiPanel>

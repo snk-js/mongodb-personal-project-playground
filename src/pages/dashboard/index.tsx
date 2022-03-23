@@ -1,6 +1,6 @@
 import axios from 'axios';
 import nc from 'next-connect';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import Dashboard from '@/components/dashboards/bayc';
 
@@ -9,16 +9,44 @@ import { database } from '@/api-lib/middlewares';
 
 import { GetServerSidePropsContext } from '@/types/nextjs';
 
-export default function MainDashboard(props) {
-  useEffect(() => {
-    console.log(props);
-  }, []);
+export default function MainDashboard(props: { [string: string]: Array<any> }) {
+  const [avgPrice, setAvgPrice] = useState(-1);
+  const [highPrice, setHighPrice] = useState(-1);
+  const [lowPrice, setLowPrice] = useState(-1);
+  const [lineAverage, setLineAverage] = useState([{}]);
+  const [lineVolume, setLineVolume] = useState([{}]);
+  const [bubbleAllSales, setBubbleAllSales] = useState([{}]);
 
-  return <Dashboard />;
+  useEffect(() => {
+    setAvgPrice(props.avgPrice[0].maxQuantity);
+    setHighPrice(props.highPrice[0].maxQuantity);
+    setLowPrice(props.lowPrice[0].maxQuantity);
+    setLineAverage(props.lineAverage);
+    setLineVolume(props.lineVolume);
+    setBubbleAllSales(props.bubbleAllSales);
+  }, [
+    setAvgPrice,
+    setHighPrice,
+    setLowPrice,
+    setLineAverage,
+    setLineVolume,
+    setBubbleAllSales,
+  ]);
+
+  return (
+    <Dashboard
+      avgPrice={avgPrice}
+      highPrice={highPrice}
+      lowPrice={lowPrice}
+      lineAverage={lineAverage}
+      lineVolume={lineVolume}
+      bubbleAllSales={bubbleAllSales}
+    />
+  );
 }
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
-  const { dashboard_aggregation_pipelines, dashboard_queries } = QUERIES;
+  const { dashboard_aggregation_pipelines } = QUERIES;
 
   await nc().use(database).run(ctx.req, ctx.res);
 
@@ -77,8 +105,6 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   lowPrice = value2.data.aggregateResult;
   avgPrice = value3.data.aggregateResult;
   bubbleAllSales = bubblechart.data.transactionQuery || {};
-
-  console.log(bubblechart.data);
 
   return {
     props: {
