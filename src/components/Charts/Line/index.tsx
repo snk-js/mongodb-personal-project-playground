@@ -1,48 +1,21 @@
 import { ResponsiveLine } from '@nivo/line';
-import { useEffect, useState } from 'react';
 
 const Line = ({ data }) => {
-  const [chart, setChart] = useState([
-    {
-      _id: { dayOfYear: 75, minute: 12 },
-      total: 15010,
-    },
-    {
-      _id: { dayOfYear: 75, minute: 1256 },
-      total: 123,
-    },
-    {
-      _id: { dayOfYear: 75, minute: 115 },
-      total: 251,
-    },
-    {
-      _id: { dayOfYear: 75, minute: 12515 },
-      total: 1566,
-    },
-    {
-      _id: { dayOfYear: 75, minute: 125 },
-      total: 1351,
-    },
-  ]);
-
-  useEffect(() => {
-    if (data && data.lineChartData) {
-      setChart(data.lineChartData);
-    }
-  }, [data]);
-
+  console.log({ data });
   return (
     <ResponsiveLine
       data={[
         {
-          id: 'japan',
+          id: 'average sales price',
           color: 'hsl(35, 70%, 50%)',
           data:
-            (chart.length &&
-              chart.map((d) => {
-                return { y: d.total, x: d._id.minute };
-              })) ??
-            chart,
+            data.length &&
+            data.map((d) => {
+              return {
+                y: d.total,
+                x: `${d._id.hour}:${d._id.minute}`,
+              };
+            }),
         },
       ]}
       margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
@@ -60,8 +33,8 @@ const Line = ({ data }) => {
       axisBottom={{
         tickSize: 5,
         tickPadding: 5,
-        tickRotation: 0,
-        legend: 'transportation',
+        tickRotation: -45,
+        legend: 'hour and minute',
         legendOffset: 36,
         legendPosition: 'middle',
       }}

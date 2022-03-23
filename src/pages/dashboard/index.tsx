@@ -21,7 +21,7 @@ export default function MainDashboard(props: { [string: string]: Array<any> }) {
     setAvgPrice(props.avgPrice[0].maxQuantity);
     setHighPrice(props.highPrice[0].maxQuantity);
     setLowPrice(props.lowPrice[0].maxQuantity);
-    setLineAverage(props.lineAverage);
+    setLineAverage(props.lineAvg);
     setLineVolume(props.lineVolume);
     setBubbleAllSales(props.bubbleAllSales);
   }, [
@@ -67,7 +67,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const line2 = await axios.post(
     'http://localhost:3000' + '/api/v0/aggregate',
     {
-      pipeline: dashboard_aggregation_pipelines.lineAvgPriceOverTime,
+      pipeline: dashboard_aggregation_pipelines.lineVolumeOvertime,
     }
   );
 

@@ -15,6 +15,10 @@ const BubbleChart = dynamic(() => import('@/components/Charts/BubbleChart'), {
   ssr: false,
 });
 
+const LineChart = dynamic(() => import('@/components/Charts/Line'), {
+  ssr: false,
+});
+
 type DashboardProps = {
   avgPrice: number | string;
   highPrice: number | string;
@@ -32,9 +36,7 @@ const Dashboard = ({
   lineVolume,
   bubbleAllSales,
 }: DashboardProps) => {
-  console.log({ bubbleAllSales });
-
-  const formatData = (bubbleAllSales: Array<Record<any, any>>) => {
+  const formatBubbleData = (bubbleAllSales: Array<Record<any, any>>) => {
     return bubbleAllSales.map((item) => ({
       x: new Date(item.timestamp).getHours(),
       y: item.value?.shifted,
@@ -112,19 +114,30 @@ const Dashboard = ({
                 >
                   <div>bubble chart for the sales</div>
                   <BubbleChart
-                    data={[{ id: 'sales', data: formatData(bubbleAllSales) }]}
+                    data={[
+                      { id: 'sales', data: formatBubbleData(bubbleAllSales) },
+                    ]}
                   />
                 </EuiPanel>
                 <EuiSpacer size='l' />
-                <EuiPanel>
+                <EuiPanel
+                  style={{
+                    height: '400px',
+                    width: '100%',
+                  }}
+                >
                   <div>line chart averege sale price</div>
-                  <div>
-                    <img src='/download.svg' />
-                  </div>
+                  <LineChart data={lineAverage} />
                 </EuiPanel>
                 <EuiSpacer size='l' />
-                <EuiPanel>
+                <EuiPanel
+                  style={{
+                    height: '400px',
+                    width: '100%',
+                  }}
+                >
                   <div>line for sum</div>
+                  <LineChart data={lineVolume} />
                 </EuiPanel>
               </EuiFlexItem>
               <EuiFlexItem grow={4}>
