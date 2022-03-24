@@ -1,12 +1,14 @@
 export type IAgreggateParams = {
-  contract_address?: string;
-  //Filter by a specific function name. Requires a contract address
-  func?: string;
-  success: number;
-  field: string;
-  operation: string;
-  group_by: string;
-  num: number;
+  contract_address?: string | null | undefined;
+  func?: string | null | undefined;
+  success: number | null | undefined;
+  field: string | null | undefined;
+  operation: string | null | undefined;
+  group_by: string | null | undefined;
+  num: number | null | undefined;
+  'nft.event': string | null | undefined;
+  'nft.contract': string | null | undefined;
+  date: 'string' | null | undefined;
 };
 
 export type ITransactionParams = {

@@ -1,5 +1,2 @@
-export const Aggregation = async ({ db, pipeline, date }) =>
-  await db
-    .collection('transaction')
-    .aggregate(date ? [...pipeline(new Date(...date))] : pipeline)
-    .toArray();
+export const Aggregation = async ({ db, pipeline }) =>
+  await db.collection('transaction').aggregate(pipeline).toArray();
