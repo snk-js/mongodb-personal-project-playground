@@ -15,6 +15,10 @@ const BubbleChart = dynamic(() => import('@/components/Charts/BubbleChart'), {
   ssr: false,
 });
 
+const Feed = dynamic(() => import('@/components/Feed'), {
+  ssr: false,
+});
+
 const LineChart = dynamic(() => import('@/components/Charts/Line'), {
   ssr: false,
 });
@@ -141,8 +145,7 @@ const Dashboard = ({
                 </EuiPanel>
               </EuiFlexItem>
               <EuiFlexItem grow={4}>
-                Feed here
-                {/* <Feed /> */}
+                <Feed />
               </EuiFlexItem>
             </EuiFlexGroup>
           </EuiPageContentBody>

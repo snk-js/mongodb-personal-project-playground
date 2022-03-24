@@ -8,9 +8,10 @@ export const genAggPipe = (aggParams: Record<string, any>) => {
     group_by,
     num,
     date,
-    nft_event,
-    nft_contract,
   } = aggParams;
+
+  const nft_contract = aggParams['nft.contract'];
+  const nft_event = aggParams['nft.event'];
 
   const tags_arr = [] as any;
 
@@ -34,16 +35,26 @@ export const genAggPipe = (aggParams: Record<string, any>) => {
     tags_arr.push(nft_event.toLowerCase() + ':nft.event');
   }
 
-  const match_stage = {
-    $match: {
-      tags: {
-        $all: tags_arr,
+  const genMatch = (tags: string[], dateParam: number[]) => {
+    const match: any = {
+      $match: {
+        tags: {
+          $all: tags,
+        },
       },
-      // timestamp: {
-      //   $gt: date ? new Date(...date) : undefined,
-      // },
-    },
+    };
+
+    if (date) {
+      match['timestamp'] = {
+        // @ts-ignore
+        $gt: new Date(...dateParam),
+      };
+    }
+
+    return match;
   };
+
+  const match_stage = genMatch(tags_arr, date);
 
   const group_stage = { $group: {} } as any;
   if (

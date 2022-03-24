@@ -46,7 +46,7 @@ export default function MainDashboard(props: { [string: string]: Array<any> }) {
 }
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
-  const { dashboard_aggregation_pipelines } = QUERIES;
+  const { pipelineAggregations } = QUERIES;
 
   await nc().use(database).run(ctx.req, ctx.res);
 
@@ -60,14 +60,16 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
 
   const date = [2022, 1, 1, 0, 0, 0, 0];
 
+  console.log({ QUERIES });
+
   const line = await axios.post('http://localhost:3000' + '/api/v0/aggregate', {
-    pipeline: dashboard_aggregation_pipelines.lineAvgPriceOverTime,
+    pipeline: pipelineAggregations.lineAvgPriceOverTime,
   });
 
   const line2 = await axios.post(
     'http://localhost:3000' + '/api/v0/aggregate',
     {
-      pipeline: dashboard_aggregation_pipelines.lineVolumeOvertime,
+      pipeline: pipelineAggregations.lineVolumeOvertime,
     }
   );
 

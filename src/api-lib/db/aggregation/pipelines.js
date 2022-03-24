@@ -1,4 +1,4 @@
-export const dashboard_aggregation_pipelines = {
+export const pipelineAggregations = {
   highPrice: (date) => [
     {
       $match: {
