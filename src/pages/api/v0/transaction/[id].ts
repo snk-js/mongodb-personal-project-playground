@@ -14,16 +14,32 @@ interface RequestWithMiddleware extends NextApiRequest {
   date?: any;
 }
 
-handler.post(async (req: RequestWithMiddleware, res: NextApiResponse) => {
-  const { id }: any = req.query;
+handler
+  .post(async (req: RequestWithMiddleware, res: NextApiResponse) => {
+    const { id }: any = req.query;
 
-  const transaction = await TransactionById({
-    db: req.db,
-    // @ts-ignore
-    id: id,
+    const transaction = await TransactionById({
+      db: req.db,
+      // @ts-ignore
+      id: id,
+    });
+
+    return res.json({ transaction });
+  })
+  .get(async (req: RequestWithMiddleware, res: NextApiResponse) => {
+    const { id }: any = req.query;
+
+    console.log({ id });
+
+    const transaction = await TransactionById({
+      db: req.db,
+      // @ts-ignore
+      id,
+    });
+
+    console.log(transaction);
+
+    return res.json({ transaction });
   });
-
-  return res.json({ transaction });
-});
 
 export default handler;

@@ -3,3 +3,9 @@ export const Transaction = async ({ db, pipeline }) => {
 
   return transactions.find(pipeline).toArray();
 };
+
+export const TransactionById = async ({ db, id }) => {
+  const transactions = await db.collection('transaction');
+
+  return transactions.aggregate([{ $match: { _id: id } }]).toArray();
+};
