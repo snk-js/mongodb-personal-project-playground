@@ -11,7 +11,7 @@ import Link from 'next/link';
 
 const Transaction = (props) => (
   // FadeIn
-  <div delay={props.data.time_delay} duration={props.data.time_delay}>
+  <div>
     <EuiComment
       username={props.data.name}
       type='update'
@@ -27,7 +27,7 @@ const Transaction = (props) => (
     >
       <EuiText>
         <Link
-          to={{
+          href={{
             pathname: `/tx/${props.data.hash}`,
           }}
         >

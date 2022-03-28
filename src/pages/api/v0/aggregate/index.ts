@@ -3,7 +3,6 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import nc from 'next-connect';
 import { parse } from 'query-string';
 
-import * as QUERIES from '@/api-lib/db';
 import { Aggregation, AggregationPost } from '@/api-lib/db/';
 import { database } from '@/api-lib/middlewares';
 import { ncOpts } from '@/api-lib/nc';
@@ -19,35 +18,56 @@ interface RequestWithMiddleware extends NextApiRequest {
   date?: any;
 }
 
+let query: IAgreggateParams | any = {
+  contract_address: null,
+  func: null,
+  success: null,
+  field: null,
+  operation: null,
+  group_by: null,
+  num: null,
+  date: '',
+  'nft.event': null,
+  'nft.contract': null,
+};
+
 handler
   .post(async (req: RequestWithMiddleware, res: NextApiResponse) => {
-    const { date, pipeline }: any = req.body;
+    const {
+      date,
+      contract_address,
+      func,
+      success,
+      field,
+      operation,
+      group_by,
+      num,
+      nft_event,
+      nft_contract,
+    }: any = req.body;
 
-    const { pipelineAggregations } = QUERIES;
+    const pipeline = genAggPipe({
+      contract_address,
+      date,
+      func,
+      success,
+      field,
+      operation,
+      group_by,
+      num,
+      'nft.event': nft_event,
+      'nft.contract': nft_contract,
+    });
 
     const aggregateResult = await AggregationPost({
       db: req.db,
-      // @ts-ignore
-      pipeline: date ? pipelineAggregations[pipeline] : pipeline,
-      date: date ?? undefined,
+      pipeline,
     });
 
     return res.json({ aggregateResult });
   })
   .get(async (req: RequestWithMiddleware, res: NextApiResponse) => {
     const params = req.url;
-    let query: IAgreggateParams | any = {
-      contract_address: null,
-      func: null,
-      success: null,
-      field: null,
-      operation: null,
-      group_by: null,
-      num: null,
-      date: [0,0,0,0,0],
-      'nft.event': null,
-      'nft.contract': null,
-    };
 
     if (params?.split('?')[1]) {
       query = parse(params.split('?')[1]);

@@ -1,7 +1,6 @@
 import { ResponsiveLine } from '@nivo/line';
 
-const Line = ({ data }) => {
-  console.log({ data });
+const Line = ({ data }: { data: any }) => {
   return (
     <ResponsiveLine
       data={[
@@ -10,7 +9,7 @@ const Line = ({ data }) => {
           color: 'hsl(35, 70%, 50%)',
           data:
             data.length &&
-            data.map((d) => {
+            data.map((d: any) => {
               return {
                 y: d.total,
                 x: `${d._id.hour}:${d._id.minute}`,
