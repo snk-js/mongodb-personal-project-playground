@@ -8,7 +8,7 @@ export type IAgreggateParams = {
   num: number | null | undefined;
   'nft.event': string | null | undefined;
   'nft.contract': string | null | undefined;
-  date: 'string' | null | undefined;
+  date?: 'string' | null | undefined;
 };
 
 export type ITransactionParams = {
@@ -19,6 +19,7 @@ export type ITransactionParams = {
   num?: number;
   collapse?: boolean;
   contains_address?: string;
+  date?: string;
 };
 
 // export type Pipeline = {

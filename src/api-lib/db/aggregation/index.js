@@ -1,19 +1,17 @@
-import util from 'util';
-
-export const Aggregation = async ({ db, pipeline }) => {
-  // console.log(pipeline['$match']);
-  // console.log(pipeline['$group']);
-  // console.log(pipeline['$sort']);
-
-  console.log(util.inspect(pipeline, false, null, true));
-  return await db
+// this receive whole aggregation piple to succed
+export const Aggregation = async ({ db, pipeline }) =>
+  await db
     .collection('transaction')
     .aggregate([...pipeline])
     .toArray();
-};
 
-export const AggregationPost = async ({ db, pipeline, date }) =>
+// this receive pipeline through API post parameters
+export const AggregationPost = async ({ db, pipeline }) =>
+  await db.collection('transaction').aggregate(pipeline).toArray();
+
+export const TransactionById = async ({ db, id }) => {
   await db
     .collection('transaction')
-    .aggregate(date ? [...pipeline(new Date(...date))] : pipeline)
+    .aggregate([{ $match: { _id: id } }])
     .toArray();
+};

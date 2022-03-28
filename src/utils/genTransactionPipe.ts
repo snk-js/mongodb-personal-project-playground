@@ -1,4 +1,3 @@
-import { genGroup } from './genGroup';
 import { genLimit } from './genLimit';
 import { genMatch } from './genMatch';
 import { genSort } from './genSort';
@@ -9,18 +8,18 @@ export const genAggPipe = (aggParams: Record<string, any>) => {
     contract_address,
     func,
     success,
-    field,
-    operation,
-    group_by,
+    starting_before,
+    collapse,
     num,
     date,
+    contains_address,
   } = aggParams;
-
-  const nft_contract = aggParams['nft.contract'];
-  const nft_event = aggParams['nft.event'];
 
   const dateOperator = date.split(':')[0];
   const dateLongEpoch = date.split(':')[0];
+
+  const nft_contract = aggParams['nft.contract'];
+  const nft_event = aggParams['nft.event'];
 
   const tags = getTags(
     contract_address,
@@ -32,11 +31,9 @@ export const genAggPipe = (aggParams: Record<string, any>) => {
 
   const matchStage = genMatch(tags, dateOperator, dateLongEpoch);
 
-  const groupStage = genGroup(operation, field, group_by);
-
   const sortStage = genSort();
 
   const limitStage = genLimit(num);
 
-  return [matchStage, groupStage, sortStage, limitStage];
+  return [matchStage, sortStage, limitStage];
 };

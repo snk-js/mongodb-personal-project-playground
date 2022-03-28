@@ -44,7 +44,7 @@ handler
       operation: null,
       group_by: null,
       num: null,
-      date: null,
+      date: [0,0,0,0,0],
       'nft.event': null,
       'nft.contract': null,
     };
