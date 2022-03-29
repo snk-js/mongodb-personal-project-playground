@@ -59,6 +59,8 @@ handler
       'nft.contract': nft_contract,
     });
 
+    //console.log(JSON.stringify(pipeline, null, 2));
+
     const aggregateResult = await AggregationPost({
       db: req.db,
       pipeline,
@@ -94,7 +96,7 @@ handler
         pipeline,
       });
     } catch (e) {
-      console.log(e);
+      //console.log(e);
       return res.json({ error: e });
     }
     return res.json({ aggregateResult });

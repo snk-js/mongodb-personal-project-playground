@@ -18,13 +18,13 @@ export const genGroup = (
     if (group_by === 'minute') {
       _id = {
         day: {
-          $dayOfYear: '$process_date',
+          $dayOfYear: '$timestamp',
         },
         hour: {
-          $hour: '$process_date',
+          $hour: '$timestamp',
         },
         minute: {
-          $minute: '$process_date',
+          $minute: '$timestamp',
         },
       };
     }
@@ -35,7 +35,7 @@ export const genGroup = (
           $dayOfYear: '$process_date',
         },
         hour: {
-          $hour: '$process_date',
+          $hour: '$timestamp',
         },
       };
     }
@@ -43,7 +43,7 @@ export const genGroup = (
     else if (group_by === 'day') {
       _id = {
         day: {
-          $dayOfYear: '$process_date',
+          $dayOfYear: '$timestamp',
         },
       };
     }

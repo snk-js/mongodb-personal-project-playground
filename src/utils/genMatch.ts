@@ -1,7 +1,7 @@
 export const genMatch = (
   tagsArr: string[],
   dateOperator: string,
-  dateLongEpoch: string
+  dateLongEpoch: number
 ) => {
   const match: any = {
     $match: {
@@ -12,9 +12,9 @@ export const genMatch = (
   };
 
   if (dateOperator && dateLongEpoch) {
-    match['timestamp'] = {
+    match['$match']['timestamp'] = {
       // @ts-ignore
-      ['$' + `${dateOperator}`]: dateLongEpoch,
+      ['$' + `${dateOperator}`]: new Date(dateLongEpoch),
     };
   }
 

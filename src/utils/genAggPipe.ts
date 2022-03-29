@@ -20,7 +20,7 @@ export const genAggPipe = (aggParams: Record<string, any>) => {
   const nft_event = aggParams['nft.event'];
 
   const dateOperator = date.split(':')[0];
-  const dateLongEpoch = date.split(':')[0];
+  const dateLongEpoch = parseInt(date.split(':')[1]);
 
   const tags = getTags(
     contract_address,
