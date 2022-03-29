@@ -32,7 +32,7 @@ export const genGroup = (
     else if (group_by === 'hour') {
       _id = {
         day: {
-          $dayOfYear: '$process_date',
+          $dayOfYear: '$timestamp',
         },
         hour: {
           $hour: '$timestamp',

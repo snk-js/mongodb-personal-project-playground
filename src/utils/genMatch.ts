@@ -1,7 +1,7 @@
 export const genMatch = (
   tagsArr: string[],
   dateOperator: string,
-  dateLongEpoch: number
+  dateLongEpoch: string
 ) => {
   const match: any = {
     $match: {
