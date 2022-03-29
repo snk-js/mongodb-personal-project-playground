@@ -9,13 +9,13 @@ export default function HomePage() {
       {/* <Seo templateTitle='Home' /> */}
       <Seo />
 
-      <main>
-        <section className='bg-white'>
+      <main style={{ backgroundColor: '#eff8e2' }}>
+        <section>
           <div className='layout flex min-h-screen flex-col items-center justify-center text-center'>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               width='300'
-              height='300'
+              height='155'
               src='/images/sort.png'
               alt='Sort Analytics logo'
             />
