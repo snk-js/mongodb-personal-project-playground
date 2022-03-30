@@ -19,8 +19,11 @@ export const genAggPipe = (aggParams: Record<string, any>) => {
   const nft_contract = aggParams['nft.contract'];
   const nft_event = aggParams['nft.event'];
 
+  //console.log("nft_contract: " + nft_contract);
+  //console.log("nft_event: " + nft_event);
+
   const dateOperator = date.split(':')[0];
-  const dateLongEpoch = date.split(':')[0];
+  const dateLongEpoch = date.split(':')[1];
 
   const tags = getTags(
     contract_address,

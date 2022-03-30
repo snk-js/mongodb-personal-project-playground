@@ -12,9 +12,9 @@ export const genMatch = (
   };
 
   if (dateOperator && dateLongEpoch) {
-    match['timestamp'] = {
+    match['$match']['timestamp'] = {
       // @ts-ignore
-      ['$' + `${dateOperator}`]: dateLongEpoch,
+      ['$' + `${dateOperator}`]: new Date(dateLongEpoch),
     };
   }
 

@@ -17,33 +17,51 @@ export const genGroup = (
     // Group by minute
     if (group_by === 'minute') {
       _id = {
+        year: {
+          $year: '$timestamp',
+        },
+        month: {
+          $month: '$timestamp',
+        },
         day: {
-          $dayOfYear: '$process_date',
+          $dayOfMonth: '$timestamp',
         },
         hour: {
-          $hour: '$process_date',
+          $hour: '$timestamp',
         },
         minute: {
-          $minute: '$process_date',
+          $minute: '$timestamp',
         },
       };
     }
     // Group by hour
     else if (group_by === 'hour') {
       _id = {
+        year: {
+          $year: '$timestamp',
+        },
+        month: {
+          $month: '$timestamp',
+        },
         day: {
-          $dayOfYear: '$process_date',
+          $dayOfMonth: '$timestamp',
         },
         hour: {
-          $hour: '$process_date',
+          $hour: '$timestamp',
         },
       };
     }
     // Group by day
     else if (group_by === 'day') {
       _id = {
+        year: {
+          $year: '$timestamp',
+        },
+        month: {
+          $month: '$timestamp',
+        },
         day: {
-          $dayOfYear: '$process_date',
+          $dayOfMonth: '$timestamp',
         },
       };
     }
