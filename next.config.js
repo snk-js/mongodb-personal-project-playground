@@ -1,5 +1,15 @@
 /** @type {import('next').NextConfig} */
 module.exports = {
+
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination: 'https://sort.xyz/:path*',
+      },
+    ]
+  },
+
   async headers() {
     return [
       {
