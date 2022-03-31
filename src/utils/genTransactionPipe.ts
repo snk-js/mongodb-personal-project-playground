@@ -1,3 +1,6 @@
+import web3 from 'web3-utils';
+
+import { formatMongoDate } from './formatMongoDate';
 import { genLimit } from './genLimit';
 import { genMatch } from './genMatch';
 import { genSort } from './genSort';
@@ -15,17 +18,15 @@ export const genTransactionPipe = (aggParams: Record<string, any>) => {
     contains_address,
   } = aggParams;
 
-  let dateOperator;
-  let dateLongEpoch;
-
-  if (date) {
-    dateOperator = date.split(':')[0];
-    dateLongEpoch = date.split(':')[1];
+  if (!web3.isAddress(contract_address)) {
+    throw new Error('Invalid contract address');
   }
+
+  const { dateOperator, dateISO } = formatMongoDate(date);
 
   const tags = getTags(contract_address, func, success);
 
-  const matchStage = genMatch(tags, dateOperator, dateLongEpoch);
+  const matchStage = genMatch(tags, dateOperator, dateISO);
 
   const sortStage = genSort();
 

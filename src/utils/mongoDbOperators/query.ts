@@ -9,7 +9,7 @@ export const logicals = [
   // Joins query clauses with a logical OR returns all documents that match the conditions of either clause.
 ];
 
-export const comparisons = [
+export const allowedComparisons = [
   'eq',
   //Matches values that are equal to a specified value.
   'gt',

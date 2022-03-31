@@ -1,5 +1,5 @@
 import { validateDateFormat } from './dateUtils';
-import { comparisons } from './mongoDbOperators/query';
+import { allowedComparisons } from './mongoDbOperators/query';
 
 export const formatMongoDate = (date: string) => {
   let dateOperator = '';
@@ -9,16 +9,16 @@ export const formatMongoDate = (date: string) => {
     if (date.includes(':')) {
       dateOperator = date.split(':')[0];
       dateISO = date.split(':')[1];
-    } else {
+    } /* else {
       throw Error('please use format: "<comparison operator>:dateISO"');
-    }
-  } else {
+    } */
+  } /* else {
     throw Error('Date is not valid or not exist');
-  }
+  } */
 
   const defaultDate = new Date().toISOString().split('T')[0];
 
-  validateDateFormat(dateISO) && comparisons.includes(dateOperator)
+  validateDateFormat(dateISO) && allowedComparisons.includes(dateOperator)
     ? { dateOperator, dateISO }
     : { dateOperator: 'gte', dateLongEpoch: defaultDate };
 

@@ -45,7 +45,8 @@
     "react-hot-toast": "^2.2.0",
     "react-icons": "^4.3.1",
     "react-transition-group": "^4.4.2",
-    "tailwind-merge": "^1.2.0"
+    "tailwind-merge": "^1.2.0",
+    "web3-utils": "^1.7.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^13.2.1",

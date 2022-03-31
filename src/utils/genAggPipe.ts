@@ -1,3 +1,5 @@
+import web3 from 'web3-utils';
+
 import { formatMongoDate } from './formatMongoDate';
 import { genGroup } from './genGroup';
 import { genLimit } from './genLimit';
@@ -19,6 +21,10 @@ export const genAggPipe = (aggParams: Record<string, any>) => {
 
   const nft_contract = aggParams['nft.contract'];
   const nft_event = aggParams['nft.event'];
+
+  if (!web3.isAddress(contract_address)) {
+    throw new Error('Invalid contract address');
+  }
 
   const { dateOperator, dateISO } = formatMongoDate(date);
 
