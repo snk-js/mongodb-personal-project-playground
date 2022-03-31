@@ -1,3 +1,4 @@
+import { formatMongoDate } from './formatMongoDate';
 import { genGroup } from './genGroup';
 import { genLimit } from './genLimit';
 import { genMatch } from './genMatch';
@@ -19,16 +20,7 @@ export const genAggPipe = (aggParams: Record<string, any>) => {
   const nft_contract = aggParams['nft.contract'];
   const nft_event = aggParams['nft.event'];
 
-  //console.log("nft_contract: " + nft_contract);
-  //console.log("nft_event: " + nft_event);
-
-  let dateOperator = null;
-  let dateLongEpoch = null;
-
-  if (date) {
-    dateOperator = date.split(':')[0];
-    dateLongEpoch = date.split(':')[1];
-  }
+  const { dateOperator, dateISO } = formatMongoDate(date);
 
   const tags = getTags(
     contract_address,
@@ -38,7 +30,7 @@ export const genAggPipe = (aggParams: Record<string, any>) => {
     nft_event
   );
 
-  const matchStage = genMatch(tags, dateOperator, dateLongEpoch);
+  const matchStage = genMatch(tags, dateOperator, dateISO);
 
   const groupStage = genGroup(operation, field, group_by);
 
