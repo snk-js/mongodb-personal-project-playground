@@ -60,8 +60,6 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
 
   const date = [2022, 1, 1, 0, 0, 0, 0];
 
-  console.log({ QUERIES });
-
   const line = await axios.post('http://localhost:3000' + '/api/v0/aggregate', {
     pipeline: pipelineAggregations.lineAvgPriceOverTime,
   });

@@ -80,7 +80,7 @@ handler
     });
 
     /* eslint-disable no-console */
-    console.log(JSON.stringify(pipeline, null, 2));
+    // console.log(JSON.stringify(pipeline, null, 2));
     /* eslint-enable no-console */
 
     const aggregateResult = await AggregationPost({

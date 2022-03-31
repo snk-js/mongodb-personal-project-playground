@@ -29,15 +29,11 @@ handler
   .get(async (req: RequestWithMiddleware, res: NextApiResponse) => {
     const { id }: any = req.query;
 
-    console.log({ id });
-
     const transaction = await TransactionById({
       db: req.db,
       // @ts-ignore
       id,
     });
-
-    console.log(transaction);
 
     return res.json({ transaction });
   });

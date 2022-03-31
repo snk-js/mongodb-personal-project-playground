@@ -15,8 +15,13 @@ export const genTransactionPipe = (aggParams: Record<string, any>) => {
     contains_address,
   } = aggParams;
 
-  const dateOperator = date.split(':')[0];
-  const dateLongEpoch = date.split(':')[0];
+  let dateOperator;
+  let dateLongEpoch;
+
+  if (date) {
+    dateOperator = date.split(':')[0];
+    dateLongEpoch = date.split(':')[1];
+  }
 
   const tags = getTags(contract_address, func, success);
 
@@ -26,5 +31,7 @@ export const genTransactionPipe = (aggParams: Record<string, any>) => {
 
   const limitStage = genLimit(num);
 
-  return [matchStage, sortStage, limitStage];
+  const pipeline = [matchStage, sortStage, limitStage];
+
+  return [...pipeline];
 };
