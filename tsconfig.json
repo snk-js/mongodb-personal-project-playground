@@ -22,7 +22,9 @@
       "@/page-components/*": ["./src/page-components/*"],
       "@/lib/*": ["./src/lib/*"],
       "@/api-lib/*": ["./src/api-lib/*"],
-      "@/assets/*": ["./src/assets/*"]
+      "@/assets/*": ["./src/assets/*"],
+      "@/utils/*": ["./src/utils/*"],
+      "@/mongodbutils/*": ["./src/utils/mongoDb"]
     },
     "incremental": true
   },

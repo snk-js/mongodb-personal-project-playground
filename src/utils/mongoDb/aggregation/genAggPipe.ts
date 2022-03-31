@@ -1,11 +1,11 @@
 import web3 from 'web3-utils';
 
-import { formatMongoDate } from './formatMongoDate';
-import { genGroup } from './genGroup';
-import { genLimit } from './genLimit';
-import { genMatch } from './genMatch';
-import { genSort } from './genSort';
-import { getTags } from './getTags';
+import { genGroup } from '../pipeline/genGroup';
+import { genLimit } from '../pipeline/genLimit';
+import { genMatch } from '../pipeline/genMatch';
+import { genSort } from '../pipeline/genSort';
+import { getTags } from '../pipeline/getTags';
+import { formatMongoDate } from '../../dateUtils/index';
 
 export const genAggPipe = (aggParams: Record<string, any>) => {
   const {
@@ -21,6 +21,15 @@ export const genAggPipe = (aggParams: Record<string, any>) => {
 
   const nft_contract = aggParams['nft.contract'];
   const nft_event = aggParams['nft.event'];
+
+  const allowedSuccess = ['1', '0', 1, 0];
+  const allowedOperation = ['max', 'min', 'avg', 'sum'];
+
+  if (!allowedOperation.includes(operation))
+    throw new Error('Invalid operation');
+
+  if (!allowedSuccess.includes(success))
+    throw new Error('Invalid success value');
 
   if (!web3.isAddress(contract_address)) {
     throw new Error('Invalid contract address');

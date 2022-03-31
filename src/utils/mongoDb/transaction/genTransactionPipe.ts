@@ -1,10 +1,10 @@
 import web3 from 'web3-utils';
 
-import { formatMongoDate } from './formatMongoDate';
-import { genLimit } from './genLimit';
-import { genMatch } from './genMatch';
-import { genSort } from './genSort';
-import { getTags } from './getTags';
+import { formatMongoDate } from '@/utils/dateUtils';
+import { genLimit } from '@/utils/mongoDb/pipeline/genLimit';
+import { genMatch } from '@/utils/mongoDb/pipeline/genMatch';
+import { genSort } from '@/utils/mongoDb/pipeline/genSort';
+import { getTags } from '@/utils/mongoDb/pipeline/getTags';
 
 export const genTransactionPipe = (aggParams: Record<string, any>) => {
   const {

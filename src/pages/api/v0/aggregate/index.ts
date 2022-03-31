@@ -4,35 +4,15 @@ import nc from 'next-connect';
 import { parse } from 'query-string';
 
 import { Aggregation, AggregationPost } from '@/api-lib/db/';
-import { database } from '@/api-lib/middlewares';
+import { cors, database } from '@/api-lib/middlewares';
 import { ncOpts } from '@/api-lib/nc';
-import { genAggPipe } from '@/utils/genAggPipe';
+import { genAggPipe } from '@/utils/mongoDb/aggregation/genAggPipe';
 
 import { IAgreggateParams } from '@/types/api/aggregate';
 
 const handler = nc<NextApiRequest, NextApiResponse>(ncOpts);
 
-const allowCors = (fn) => async (req, res) => {
-  res.setHeader('Access-Control-Allow-Credentials', true);
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  // another common pattern
-  // res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
-  res.setHeader(
-    'Access-Control-Allow-Methods',
-    'GET,OPTIONS,PATCH,DELETE,POST,PUT'
-  );
-  res.setHeader(
-    'Access-Control-Allow-Headers',
-    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
-  );
-  if (req.method === 'OPTIONS') {
-    res.status(200).end();
-    return;
-  }
-  return await fn(req, res);
-};
-
-handler.use(database);
+handler.use(database, cors);
 interface RequestWithMiddleware extends NextApiRequest {
   db?: Db;
   date?: any;
@@ -124,5 +104,4 @@ handler
     return res.json({ aggregateResult });
   });
 
-module.exports = allowCors(handler);
-//export default handler;
+export default handler;

@@ -1,4 +1,4 @@
-export const logicals = [
+export const allowedLogicals = [
   'and',
   // Joins query clauses with a logical AND returns all documents that match the conditions of both clauses.
   'not',
@@ -24,6 +24,6 @@ export const allowedComparisons = [
   //Matches values that are less than or equal to a specified value.
   'ne',
   //Matches all values that are not equal to a specified value.
-  'nin',
+  'min',
   //Matches none of the values specified in an array.
 ];
