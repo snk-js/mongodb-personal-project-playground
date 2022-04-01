@@ -24,14 +24,23 @@ export const genAggPipe = (aggParams: Record<string, any>) => {
 
   const allowedSuccess = ['1', '0', 1, 0];
   const allowedOperation = ['max', 'min', 'avg', 'sum'];
+  const allowedNftEvent = ['sale'];
 
-  if (!allowedOperation.includes(operation))
+  if (nft_event && allowedNftEvent.includes(nft_event)) {
+    throw new Error('Invalid nft event');
+  }
+
+  if (nft_contract && !web3.isAddress(nft_contract)) {
+    throw new Error('Invalid contract address');
+  }
+
+  if (operation && !allowedOperation.includes(operation))
     throw new Error('Invalid operation');
 
-  if (!allowedSuccess.includes(success))
+  if (success && !allowedSuccess.includes(success))
     throw new Error('Invalid success value');
 
-  if (!web3.isAddress(contract_address)) {
+  if (contract_address && !web3.isAddress(contract_address)) {
     throw new Error('Invalid contract address');
   }
 
