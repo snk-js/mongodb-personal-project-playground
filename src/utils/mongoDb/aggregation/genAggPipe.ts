@@ -17,6 +17,8 @@ export const genAggPipe = (aggParams: Record<string, any>) => {
     group_by,
     num,
     date,
+    coin_buy,
+    coin_sell,
   } = aggParams;
 
   const nft_contract = aggParams['nft.contract'];
@@ -51,7 +53,9 @@ export const genAggPipe = (aggParams: Record<string, any>) => {
     func,
     success,
     nft_contract,
-    nft_event
+    nft_event,
+    coin_buy,
+    coin_sell
   );
 
   const matchStage = genMatch(tags, dateOperator, dateISO);
