@@ -1,5 +1,4 @@
-import web3 from 'web3-utils';
-
+import { validateAggParams } from './validateAggParams';
 import { genGroup } from '../pipeline/genGroup';
 import { genLimit } from '../pipeline/genLimit';
 import { genMatch } from '../pipeline/genMatch';
@@ -23,45 +22,25 @@ export const genAggPipe = (aggParams: Record<string, any>) => {
 
   const nft_contract = aggParams['nft.contract'];
   const nft_event = aggParams['nft.event'];
-
-  const allowedSuccess = ['1', '0', 1, 0];
-  const allowedOperation = ['max', 'min', 'avg', 'sum'];
-  const allowedNftEvent = ['sale'];
-  const allowedGroupBy = ['day', 'hour', 'minute'];
-
-  const allowedNum = {
-    day: 7,
-    hour: 24,
-    minute: 60,
-  };
-
-  if (group_by && !allowedGroupBy.includes(group_by)) {
-    throw new Error('Invalid group_by');
-  } else if (num > allowedNum[group_by]) {
-    throw new Error(
-      `the num chosen with groupBy parameter ${group_by} must be less than ${allowedNum[group_by]}`
-    );
-  }
-
-  if (nft_event && !allowedNftEvent.includes(nft_event)) {
-    throw new Error('Invalid nft event');
-  }
-
-  if (nft_contract && !web3.isAddress(nft_contract)) {
-    throw new Error('Invalid contract address');
-  }
-
-  if (operation && !allowedOperation.includes(operation))
-    throw new Error('Invalid operation');
-
-  if (success && !allowedSuccess.includes(success))
-    throw new Error('Invalid success value');
-
-  if (contract_address && !web3.isAddress(contract_address)) {
-    throw new Error('Invalid contract address');
-  }
-
   const { dateOperator, dateISO } = formatMongoDate(date);
+
+  let errorObj = {};
+
+  const errors = Object.keys(errorObj);
+
+  try {
+    errorObj = validateAggParams({
+      contract_address,
+      group_by,
+      nft_contract,
+      nft_event,
+      num,
+      operation,
+      success,
+    });
+  } catch (e: any) {
+    throw new Error(e);
+  }
 
   const tags = getTags(
     contract_address,
@@ -81,5 +60,6 @@ export const genAggPipe = (aggParams: Record<string, any>) => {
 
   const limitStage = genLimit(num);
 
+  // IF errors.length > 0, then we have an error
   return [matchStage, groupStage, sortStage, limitStage];
 };
