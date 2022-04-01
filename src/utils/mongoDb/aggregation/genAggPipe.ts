@@ -27,8 +27,23 @@ export const genAggPipe = (aggParams: Record<string, any>) => {
   const allowedSuccess = ['1', '0', 1, 0];
   const allowedOperation = ['max', 'min', 'avg', 'sum'];
   const allowedNftEvent = ['sale'];
+  const allowedGroupBy = ['day', 'hour', 'minute'];
 
-  if (nft_event && allowedNftEvent.includes(nft_event)) {
+  const allowedNum = {
+    day: 7,
+    hour: 24,
+    minute: 60,
+  };
+
+  if (group_by && !allowedGroupBy.includes(group_by)) {
+    throw new Error('Invalid group_by');
+  } else if (num > allowedNum[group_by]) {
+    throw new Error(
+      `the num chosen with groupBy parameter ${group_by} must be less than ${allowedNum[group_by]}`
+    );
+  }
+
+  if (nft_event && !allowedNftEvent.includes(nft_event)) {
     throw new Error('Invalid nft event');
   }
 
