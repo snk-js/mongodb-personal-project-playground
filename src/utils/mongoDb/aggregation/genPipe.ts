@@ -1,4 +1,4 @@
-import { validateAggParams } from './validateAggParams';
+import { validateTransactionParams } from './validateAggParams';
 import { genGroup } from '../pipeline/genGroup';
 import { genLimit } from '../pipeline/genLimit';
 import { genMatch } from '../pipeline/genMatch';
@@ -22,7 +22,15 @@ export const genPipe = (params: Record<string, any>) => {
     coin_tx,
   } = filter;
 
-  const { field, op, by } = aggregate;
+  let field = '';
+  let op = '';
+  let by = '';
+
+  if (aggregate) {
+    field = aggregate.field;
+    op = aggregate.op;
+    by = aggregate.by;
+  }
 
   const { dateOperator, dateISO } = formatMongoDate(tx_timestamp);
 
@@ -31,7 +39,7 @@ export const genPipe = (params: Record<string, any>) => {
   const errors = Object.keys(errorObj);
 
   try {
-    errorObj = validateAggParams({
+    errorObj = validateTransactionParams({
       ct_addr,
       by,
       nft,
@@ -67,8 +75,10 @@ export const genPipe = (params: Record<string, any>) => {
 
   const limitStage = genLimit(limit);
 
-  const projectStage = getProject(fields);
+  const mountStages = [matchStage, groupStage, sortStage, limitStage];
 
-  // IF errors.length > 0, then we have an error
-  return [matchStage, groupStage, sortStage, limitStage, projectStage];
+  if (fields) {
+    mountStages.push(getProject(fields));
+  } // IF errors.length > 0, then we have an error
+  return mountStages;
 };

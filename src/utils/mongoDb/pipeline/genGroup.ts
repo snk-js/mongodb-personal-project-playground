@@ -1,21 +1,11 @@
-export const genGroup = (
-  operation: string,
-  field: string,
-  group_by: string
-) => {
+export const genGroup = (op: string, field: string, by: string) => {
   const group_stage = { $group: {} } as any;
-  if (
-    (operation === 'max' ||
-      operation === 'min' ||
-      operation === 'avg' ||
-      operation === 'sum') &&
-    field
-  ) {
+  if ((op === 'max' || op === 'min' || op === 'avg' || op === 'sum') && field) {
     // Mongo uses the _id field for grouping data in aggregations
     let _id = {} as any;
 
     // Group by minute
-    if (group_by === 'minute') {
+    if (by === 'minute') {
       _id = {
         year: {
           $year: '$timestamp',
@@ -35,7 +25,7 @@ export const genGroup = (
       };
     }
     // Group by hour
-    else if (group_by === 'hour') {
+    else if (by === 'hour') {
       _id = {
         year: {
           $year: '$timestamp',
@@ -52,7 +42,7 @@ export const genGroup = (
       };
     }
     // Group by day
-    else if (group_by === 'day') {
+    else if (by === 'day') {
       _id = {
         year: {
           $year: '$timestamp',
@@ -72,7 +62,7 @@ export const genGroup = (
 
     group_stage['$group']._id = _id;
     group_stage['$group'].total = {} as any;
-    group_stage['$group'].total['$' + operation] = '$' + field; // use dollar sign to query fields in document by json path
+    group_stage['$group'].total['$' + op] = '$' + field; // use dollar sign to query fields in document by json path
   }
 
   return group_stage;

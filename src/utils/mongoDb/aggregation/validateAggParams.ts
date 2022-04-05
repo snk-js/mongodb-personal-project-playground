@@ -2,7 +2,7 @@ import { validateEthAddr } from '@/utils/eth/validateAddr';
 
 import { TxObjProperties } from '@/types/eth';
 
-export const validateAggParams = ({
+export const validateTransactionParams = ({
   ct_addr,
   by,
   nft,

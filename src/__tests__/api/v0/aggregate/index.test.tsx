@@ -2,41 +2,51 @@ import axios from 'axios';
 
 describe('MongoDB API payload requests for Aggregation', () => {
   it('get chart data of latest CryptoPunks v1 sales over past 7 days', async () => {
-    const chartData = await axios.post(
-      'http://localhost:3000/api/v0/aggregate',
+    const result = await axios.post(
+      'http://localhost:3000/api/v0/transaction',
       {
-        nft_event: 'sale',
-        nft_contract: '0x282bdd42f4eb70e7a9d9f40c8fea0825b7f68c5d',
-        date: 'lte:2022-03-31',
-        operation: 'sum',
-        group_by: 'day',
-        field: 'value.shifted',
-        num: 7,
+        aggregate: {
+          op: 'sum',
+          by: 'day',
+          field: 'value.shifted',
+        },
+        filter: {
+          nft_event: 'sale',
+          nft: '0x282bdd42f4eb70e7a9d9f40c8fea0825b7f68c5d',
+          tx_timestamp: 'lte:2022-03-31',
+        },
+        limit: 7,
       }
     );
 
-    const result = chartData.data.aggregateResult;
+    const { data } = result;
 
-    expect(result).toStrictEqual(CryptoPunksSalesOver7days);
+    expect(data).toStrictEqual(CryptoPunksSalesOver7days);
   });
 
   it('Get Average price of CryptoPunks v1 sales over past 24 hours', async () => {
     const chartData = await axios.post(
       'http://localhost:3000/api/v0/aggregate',
       {
-        nft_event: 'sale',
-        nft_contract: '0x282bdd42f4eb70e7a9d9f40c8fea0825b7f68c5d',
-        date: 'lte:2022-03-31',
-        operation: 'avg',
-        group_by: 'day',
-        field: 'value.shifted',
-        num: 1,
+        aggregate: {
+          op: 'avg',
+          by: 'day',
+          field: 'value.shifted',
+        },
+        filter: {
+          nft_event: 'sale',
+          nft: '0x282bdd42f4eb70e7a9d9f40c8fea0825b7f68c5d',
+          timestamp: 'lte:2022-03-31',
+        },
+        limit: 1,
       }
     );
 
-    const result = chartData.data.aggregateResult;
+    const {
+      data: { data },
+    } = chartData;
 
-    expect(result).toStrictEqual(CryptoPunksSalesOver1day);
+    expect(data).toStrictEqual(CryptoPunksSalesOver1day);
   });
 });
 
