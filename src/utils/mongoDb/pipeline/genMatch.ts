@@ -11,12 +11,12 @@ export const genMatch = (
     },
   };
 
-  if (dateOperator && dateISO) {
-    match['$match']['timestamp'] = {
-      // @ts-ignore
-      ['$' + `${dateOperator}`]: new Date(dateISO),
-    };
-  }
+  dateOperator && dateISO
+    ? (match['$match']['timestamp'] = {
+        // @ts-ignore
+        ['$' + `${dateOperator}`]: new Date(dateISO),
+      })
+    : (match['$match']['timestamp'] = -1);
 
   return match;
 };

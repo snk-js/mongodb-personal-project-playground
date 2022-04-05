@@ -5,7 +5,8 @@ export const getTags = (
   nft_contract?: string,
   nft_event?: string,
   coin_buy?: string,
-  coin_sell?: string
+  coin_sell?: string,
+  coin_tx?: string
 ): Array<string> => {
   const tags = [];
 
@@ -13,19 +14,24 @@ export const getTags = (
     tags.push(
       //@ts-ignore
       (coin_buy ?? coin_sell).toLowerCase() + ':' + coin_buy
-        ? 'coin_buy'
-        : 'coin_sell'
+        ? 'coin.buy'
+        : 'coin.sell'
     );
   }
 
   if (contract_address && func) {
     // tags have the form <CONTRACT ADRESS>:<FUNCTION>:SUCCESS
     //@ts-ignore
-    tags.push(contract_address.toLowerCase() + ':' + func + ':' + success);
+    tags.push(contract_address.toLowerCase() + ':' + func + ':' + success ?? 1);
   } else if (contract_address) {
     // tags have the form <CONTRACT ADRESS>:contract
     //@ts-ignore
     tags.push(contract_address.toLowerCase() + ':contract');
+  }
+
+  if (coin_tx) {
+    //@ts-ignore
+    tags.push(coin_tx.toLowerCase() + ':coin');
   }
 
   // nft special filters passed in

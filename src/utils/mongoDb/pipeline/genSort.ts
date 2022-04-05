@@ -1,9 +1,5 @@
-/*
-  
-   * $sort stage, we'll always sort by _id for now, may change in the future
-   */
-export const genSort = () => ({
+export const genSort = (by, isAggregateExists) => ({
   $sort: {
-    _id: -1,
+    [isAggregateExists ? (by ? '_id' : 'total') : 'timestamp']: -1,
   },
 });
