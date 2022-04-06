@@ -20,6 +20,10 @@ export const genPipe = (params: Record<string, any>) => {
   const coin_sale = filter?.coin_sale;
   const coin_tx = filter?.coin_tx;
 
+  if (!filter && !aggregate && limit) {
+    return [{ $sort: { timestamp: -1 } }, { $limit: limit }];
+  }
+
   let field = '';
   let op = '';
   let by = '';
@@ -64,19 +68,17 @@ export const genPipe = (params: Record<string, any>) => {
     coin_sale,
     coin_tx
   );
+  const mountStages: Array<Record<string, any>> = [];
 
-  const matchStage = genMatch(tags, dateOperator, dateISO);
+  mountStages.push(genMatch(tags, dateOperator, dateISO));
 
-  const groupStage = genGroup(op, field, by);
+  op && field && by && mountStages.push(genGroup(op, field, by));
 
-  const sortStage = genSort(by, aggregate && aggregate);
+  mountStages.push(genSort(by, aggregate && aggregate));
 
-  const limitStage = genLimit(limit);
+  mountStages.push(genLimit(limit));
 
-  const mountStages = [matchStage, groupStage, sortStage, limitStage];
-
-  if (fields) {
-    mountStages.push(getProject(fields));
-  } // IF errors.length > 0, then we have an error
+  if (fields) mountStages.push(getProject(fields));
+  // IF errors.length > 0, then we have an error
   return mountStages;
 };

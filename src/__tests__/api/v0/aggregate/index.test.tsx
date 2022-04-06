@@ -21,12 +21,12 @@ describe('MongoDB API payload requests for Aggregation', () => {
 
     const { data } = result;
 
-    expect(data).toStrictEqual(CryptoPunksSalesOver7days);
+    data.length && expect(data[0]['_id']).toBeTruthy();
   });
 
   it('Get Average price of CryptoPunks v1 sales over past 24 hours', async () => {
-    const chartData = await axios.post(
-      'http://localhost:3000/api/v0/aggregate',
+    const result = await axios.post(
+      'http://localhost:3000/api/v0/transaction',
       {
         aggregate: {
           op: 'avg',
@@ -42,11 +42,41 @@ describe('MongoDB API payload requests for Aggregation', () => {
       }
     );
 
-    const {
-      data: { data },
-    } = chartData;
-
+    const { data } = result;
     expect(data).toStrictEqual(CryptoPunksSalesOver1day);
+  });
+
+  it('sample call 1', async () => {
+    const result = await axios.post(
+      'http://localhost:3000/api/v0/transaction',
+      {
+        filter: {
+          nft_event: 'sale',
+          nft: '0x282bdd42f4eb70e7a9d9f40c8fea0825b7f68c5d',
+        },
+        aggregate: {
+          op: 'sum',
+          by: 'minute',
+          field: 'value.eth',
+          limit: 60,
+        },
+      }
+    );
+
+    const { data } = result;
+    expect(data);
+  });
+
+  it('get the last 10 transactions', async () => {
+    const result = await axios.post(
+      'http://localhost:3000/api/v0/transaction',
+      {
+        limit: 10,
+      }
+    );
+
+    const { data } = result;
+    expect(data);
   });
 });
 

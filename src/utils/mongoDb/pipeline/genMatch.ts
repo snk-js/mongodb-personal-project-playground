@@ -1,9 +1,12 @@
+type MatchObj = {
+  $match: Record<string, any>;
+};
 export const genMatch = (
   tagsArr: string[],
   dateOperator?: string | null,
   dateISO?: string | null
 ) => {
-  const match: any = {
+  const match: MatchObj = {
     $match: {
       tags: {
         $all: tagsArr,

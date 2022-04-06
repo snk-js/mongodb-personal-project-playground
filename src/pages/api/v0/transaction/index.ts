@@ -75,6 +75,11 @@ handler.post(async (req: RequestWithMiddleware, res: NextApiResponse) => {
     pipeline,
   });
 
+  // console.log('test', {
+  //   aggregateResult,
+  //   ok2: JSON.stringify(pipeline),
+  // });
+
   return res.json([...aggregateResult]);
 });
 

@@ -39,18 +39,16 @@ export const genGroup = (op: string, field: string, by: string) => {
     year,
   };
 
-  if (op && field && by) {
-    if (by === 'minute') {
-      timestamp['minute'] = minute;
-      timestamp['hour'] = hour;
-    }
-
-    if (by === 'hour') {
-      timestamp['hour'] = hour;
-    }
-
-    _id = timestamp;
+  if (by === 'minute') {
+    timestamp['minute'] = minute;
+    timestamp['hour'] = hour;
   }
+
+  if (by === 'hour') {
+    timestamp['hour'] = hour;
+  }
+
+  _id = timestamp;
 
   group_stage['$group']._id = _id;
   group_stage['$group'].total = {} as any;
