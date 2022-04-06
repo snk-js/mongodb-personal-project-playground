@@ -1,8 +1,9 @@
 import { Db } from 'mongodb';
 import { NextApiRequest, NextApiResponse } from 'next';
 import nc from 'next-connect';
+import web3 from 'web3-utils';
 
-import { AggregationPost } from '@/api-lib/db/';
+import { AggregationPost, TransactionById } from '@/api-lib/db/';
 import { cors, database } from '@/api-lib/middlewares';
 import { ncOpts } from '@/api-lib/nc';
 import { genPipe } from '@/utils/mongoDb/aggregation/genPipe';
@@ -53,6 +54,7 @@ type ITransactionParams = {
   aggregate: IAggregate;
   limit: number;
   fields: IFields;
+  hash: string;
 };
 
 handler.post(async (req: RequestWithMiddleware, res: NextApiResponse) => {
@@ -61,7 +63,20 @@ handler.post(async (req: RequestWithMiddleware, res: NextApiResponse) => {
     aggregate,
     limit,
     fields, // was return changed by name convention
+    hash,
   }: ITransactionParams = req.body;
+
+  if (hash && web3.isAddress(hash.toLocaleLowerCase())) {
+    let transaction;
+    try {
+      transaction = await TransactionById({ db: req.db, id: hash });
+      return res.status(200).json(transaction);
+    } catch (e) {
+      return res.status(500).json({
+        error: e.message,
+      });
+    }
+  }
 
   const pipeline = genPipe({
     filter,
