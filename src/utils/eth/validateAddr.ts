@@ -3,8 +3,6 @@ import web3 from 'web3-utils';
 export const validateEthAddr = (addrs: Record<string, string>, errors) => {
   const addrsEntries = Object.entries(addrs);
 
-  console.log(addrs);
-
   if (addrs && addrsEntries.length > 0) {
     addrsEntries.map((addr) => {
       if (addr[1] && !web3.isAddress(addr[1])) {
